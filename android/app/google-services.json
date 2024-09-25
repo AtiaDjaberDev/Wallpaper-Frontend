@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "869513202326",
+    "project_id": "wallpaper-app-academy",
+    "storage_bucket": "wallpaper-app-academy.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:869513202326:android:37745f2df334ad8fa3d0b7",
+        "android_client_info": {
+          "package_name": "com.academy.wallpap"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDINZRx8dHyvhow6bmrFqlDbybf6DpGxaY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
