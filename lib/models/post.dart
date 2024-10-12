@@ -73,6 +73,7 @@ class Post {
   List<Attachment>? attachments;
   String? attachment;
   double? downloadProgress;
+  double? shareProgress;
 
   factory Post.fromJson(Map<String, dynamic> json) => _$PostFromJson(json);
   Map<String, dynamic> toJson() => _$PostToJson(this);

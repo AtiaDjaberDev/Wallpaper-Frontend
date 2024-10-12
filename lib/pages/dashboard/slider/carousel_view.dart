@@ -10,12 +10,13 @@ import 'package:wallpaper_app/core/widget/dashboard/custom_table.dart';
 import 'package:wallpaper_app/core/widget/dashboard/header.dart';
 import 'package:wallpaper_app/core/widget/dashboard/side_menu.dart';
 import 'package:wallpaper_app/models/carousel.dart';
-import 'package:wallpaper_app/pages/dashboard/slider/carousel_controller.dart';
+import 'package:wallpaper_app/pages/dashboard/slider/carousel_controller.dart'
+    as carouselCont;
 import 'package:wallpaper_app/responsive.dart';
 import 'package:responsive_table/responsive_table.dart';
 
 class CarouselView extends StatelessWidget {
-  final controller = Get.put(CarouselController());
+  final controller = Get.put(carouselCont.CarouselController());
   @override
   Widget build(BuildContext context) {
     return Directionality(
@@ -52,7 +53,8 @@ class CarouselView extends StatelessWidget {
                             child: Column(
                               children: [
                                 const SizedBox(height: defaultPadding),
-                                GetBuilder<CarouselController>(builder: (_) {
+                                GetBuilder<carouselCont.CarouselController>(
+                                    builder: (_) {
                                   return CustomTable(
                                     "الإعلانات",
                                     controller.headers,
@@ -130,7 +132,7 @@ class CarouselView extends StatelessWidget {
                                     addItem: () async {
                                       controller
                                           .initializeForm(Carousel().toJson());
-                                      if (await manageDataDialog(controller)) {
+                                      if (await manageDataDialog()) {
                                         controller.save();
                                       }
                                     },
@@ -155,7 +157,7 @@ class CarouselView extends StatelessWidget {
     );
   }
 
-  Future manageDataDialog(CarouselController controller) async {
+  Future manageDataDialog() async {
     return await showBasicDialog(
         controller.carousel.id == null
             ? "إضافة إعلان"
@@ -169,7 +171,7 @@ class CarouselView extends StatelessWidget {
                 child: Stack(
                   clipBehavior: Clip.none,
                   children: [
-                    GetBuilder<CarouselController>(builder: (_) {
+                    GetBuilder<carouselCont.CarouselController>(builder: (_) {
                       return Container(
                         height: 150,
                         width: 250,

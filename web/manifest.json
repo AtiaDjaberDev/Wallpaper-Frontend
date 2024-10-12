@@ -1,11 +1,11 @@
 {
-    "name": "ملصقات صوتية | لوحة التحكم",
-    "short_name": "ملصقات صوتية",
+    "name": "Photo Share | لوحة التحكم",
+    "short_name": "Photo Share",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
     "theme_color": "#0175C2",
-    "description": "تطبيق ملصقات صوتية يحتوي على الكثير من الصوتيات المضحكة حمل التطبيق الان واستمتع",
+    "description": "تطبيق Photo Share يحتوي على الكثير من الاحكام و الأقوال على شكل صور حمل التطبيق الان واستمتع",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [

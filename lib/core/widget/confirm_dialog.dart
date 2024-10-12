@@ -10,7 +10,7 @@ showConfirmDialog([String title = "هل انت متاكد من الحذف ؟"]) 
     textDirection: TextDirection.rtl,
     child: AlertDialog(
       title: Text(title),
-      backgroundColor: isDashboard ? bgColor : Colors.white,
+      backgroundColor: bgColor,
       actions: [
         CustomElevatedButton(
           title: "موافق",

@@ -17,38 +17,9 @@ class LoginView extends StatelessWidget {
     SystemChrome.setSystemUIOverlayStyle(
       SystemUiOverlayStyle.light.copyWith(statusBarColor: Config.primaryColor),
     );
-    var countryDropDown = Container(
-      decoration: BoxDecoration(
-        color: Colors.white,
-        border: Border(
-          right: BorderSide(width: 0.5, color: Colors.amber),
-        ),
-      ),
-      height: 45.0,
-      margin: const EdgeInsets.all(3.0),
-      //width: 300.0,
-      child: DropdownButtonHideUnderline(
-        child: ButtonTheme(
-          alignedDropdown: true,
-          child: DropdownButton(
-            value: controller.selectedCountryCode,
-            items: controller.countryCodes.map((String value) {
-              return DropdownMenuItem<String>(
-                  value: value,
-                  child: Text(
-                    value,
-                    style: TextStyle(fontSize: 12.0),
-                  ));
-            }).toList(),
-            onChanged: (value) {
-              controller.selectedCountryCode = value.toString();
-            },
-          ),
-        ),
-      ),
-    );
+
     return Scaffold(
-      backgroundColor: Config.primaryColor,
+      backgroundColor: Config.backgroundColor,
       body: SafeArea(
         child: Directionality(
           textDirection: TextDirection.rtl,
@@ -121,32 +92,22 @@ class LoginView extends StatelessWidget {
                                 fontSize: 16, fontWeight: FontWeight.w600),
                             controller: controller.emailController,
                             keyboardType: TextInputType.text,
-                            decoration: InputDecoration(
+                            decoration: const InputDecoration(
                               filled: true,
-                              contentPadding: const EdgeInsets.all(12.0),
+                              contentPadding: EdgeInsets.all(12.0),
+                              focusedBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.amber)),
                               border: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                      color: Colors.amber, width: 0.1)),
+                                  borderSide: BorderSide(width: 0.1)),
                               fillColor:
                                   isDashboard ? secondaryColor : Colors.white,
-                              // prefixIcon: Column(
-                              //   mainAxisAlignment: MainAxisAlignment.center,
-                              //   children: [
-                              //     Text(
-                              //       controller.countryCode,
-                              //       style: TextStyle(
-                              //           fontSize: 16,
-                              //           fontWeight: FontWeight.w600),
-                              //     ),
-                              //   ],
-                              // ),
                               prefixIcon: Icon(Icons.email_outlined),
                               hintText: 'البريد الإلكتروني',
                             ),
                           ),
                         ),
                       ),
-                      const SizedBox(height: 20),
+                      const SizedBox(height: 30),
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 30),
                         child: SizedBox(
@@ -166,9 +127,12 @@ class LoginView extends StatelessWidget {
                               decoration: InputDecoration(
                                 filled: true,
                                 contentPadding: const EdgeInsets.all(12.0),
-                                border: OutlineInputBorder(
+                                focusedBorder: OutlineInputBorder(
                                     borderSide: BorderSide(
-                                        color: Colors.amber, width: 0.1)),
+                                  color: Config.primaryColor,
+                                )),
+                                border: OutlineInputBorder(
+                                    borderSide: BorderSide(width: 0.1)),
                                 fillColor:
                                     isDashboard ? secondaryColor : Colors.white,
                                 prefixIcon: Icon(Icons.password_outlined),
@@ -192,7 +156,7 @@ class LoginView extends StatelessWidget {
                             onPressed: () async {
                               controller.login();
                             },
-                            color: Config.secondColor,
+                            color: Config.primaryColor,
                             elevation: 2,
                             minWidth: 350,
                             height: 50,
@@ -217,31 +181,31 @@ class LoginView extends StatelessWidget {
                               style: TextStyle(color: Colors.grey.shade300),
                             ),
                       const SizedBox(height: 8),
-                      isDashboard
-                          ? SizedBox()
-                          : Padding(
-                              padding: const EdgeInsets.only(top: 5),
-                              child: SizedBox(
-                                width: 350,
-                                height: 40,
-                                child: OutlinedButton(
-                                  onPressed: () async {
-                                    Get.toNamed(AppRoutes.register);
-                                  },
-                                  style: ButtonStyle(
-                                    side: WidgetStateProperty.all<BorderSide>(
-                                        BorderSide(
-                                            width: 1, color: Colors.white)),
-                                  ),
-                                  child: const Text('إنشاء حساب جديد',
-                                      style: TextStyle(
-                                          fontSize: 16,
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.bold)),
-                                ),
-                              ),
-                            ),
-                      const SizedBox(height: 10),
+                      // isDashboard
+                      // ? SizedBox()
+                      // : Padding(
+                      //     padding: const EdgeInsets.only(top: 5),
+                      //     child: SizedBox(
+                      //       width: 350,
+                      //       height: 40,
+                      //       child: OutlinedButton(
+                      //         onPressed: () async {
+                      //           Get.toNamed(AppRoutes.register);
+                      //         },
+                      //         style: ButtonStyle(
+                      //           side: WidgetStateProperty.all<BorderSide>(
+                      //               BorderSide(
+                      //                   width: 1, color: Colors.white)),
+                      //         ),
+                      //         child: const Text('إنشاء حساب جديد',
+                      //             style: TextStyle(
+                      //                 fontSize: 16,
+                      //                 color: Colors.white,
+                      //                 fontWeight: FontWeight.bold)),
+                      //       ),
+                      //     ),
+                      //   ),
+                      // const SizedBox(height: 10),
                     ],
                   ),
                 ],

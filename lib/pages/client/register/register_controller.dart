@@ -57,9 +57,7 @@ class RegisterController extends GetxController {
           box?.write("user", jsonEncode(helperService.userModel));
 
           addTokenToHeader(helperService.userModel!.accessToken!);
-          Get.offAllNamed(helperService.userModel?.photo == null
-              ? AppRoutes.addUserInfo
-              : (isDashboard ? AppRoutes.chart : AppRoutes.home));
+          Get.offAllNamed(isDashboard ? AppRoutes.chart : AppRoutes.home);
         } else {
           Get.snackbar("error", response.data);
         }

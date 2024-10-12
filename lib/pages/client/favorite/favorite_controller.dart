@@ -1,35 +1,45 @@
-import 'package:dio/dio.dart';
-import 'package:get/get.dart';
+import 'dart:async';
+import 'package:wallpaper_app/core/helper/helper_function.dart';
 import 'package:wallpaper_app/models/post.dart';
+import 'package:get/get.dart';
+import 'package:wallpaper_app/core/repository.dart';
 import 'package:wallpaper_app/models/filter.dart';
-
-import '../../../core/config.dart';
+import 'package:wallpaper_app/service/helper_service.dart';
+import 'package:wallpaper_app/models/category.dart';
 
 class FavoriteController extends GetxController {
-  List<Post> lisPosts = [];
+  final helperService = Get.find<HelperService>();
+  DateTime now = DateTime.now();
 
-  var loading_posts = true;
-  Filter postFilter = Filter();
+  List<Post> listProducts = [];
+  bool loadingMorePost = false;
+
+  bool loadingPosts = false;
+  bool loading = false;
+  Filter postFilter = Filter(page: 1, status: 1);
 
   @override
   void onInit() {
-    // TODO: implement onInit
     super.onInit();
-    getPosts();
+
+    getFavorites();
   }
 
-  getPosts() async {
+  Future getFavorites() async {
     try {
-      loading_posts = false;
-      var dioRequest = Dio();
-      dioRequest.options.headers['content-Type'] = 'application/json';
-      // dioRequest.options.headers["authorization"] = helperService.token;
-      final response =
-          await dioRequest.get(Config.baseServerUrl + '/favorites');
+      loadingPosts = true;
+
+      update();
+
+      postFilter.ids = helperService.favoriteList;
+      final response = await getData('favorites-posts', filter: postFilter);
+
       if (response.statusCode == 200) {
-        lisPosts =
-            (response.data as List).map((x) => Post.fromJson(x)).toList();
-        loading_posts = true;
+        final data = response.data;
+        listProducts =
+            (data["data"] as List).map((x) => Post.fromJson(x)).toList();
+        loadingPosts = false;
+
         update();
       }
     } catch (error, stacktrace) {
@@ -37,8 +47,11 @@ class FavoriteController extends GetxController {
     }
   }
 
-  @override
-  void onClose() {
-    super.onClose();
+  void selectSection(int? sectionId) {
+    // postFilter.sectionId = categoryId;
+    postFilter.sectionId = sectionId;
+    postFilter.page = 1;
+    postFilter.title = "";
+    getFavorites();
   }
 }

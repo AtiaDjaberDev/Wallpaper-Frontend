@@ -1,7 +1,11 @@
+import 'dart:async';
+import 'dart:io';
+
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:wallpaper_app/firebase_options.dart';
 import 'package:get/get.dart';
 import 'package:wallpaper_app/core/config.dart';
@@ -10,14 +14,13 @@ import 'package:wallpaper_app/routes/app_pages.dart';
 import 'package:wallpaper_app/routes/app_routes.dart';
 import 'package:wallpaper_app/service/helper_service.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:wallpaper_app/theme.dart/dark_theme.dart';
 import 'constants_dashboard.dart';
 
 // SharedPreferences? sharedPreferences;
 GetStorage? box;
 
 Future<void> main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-
   await GetStorage.init();
   box = GetStorage();
 
@@ -38,7 +41,16 @@ Future<void> main() async {
 
   addInterceptors();
 
-  runApp(const MyApp());
+  await runZonedGuarded(() async {
+    HttpOverrides.global = MyHttpOverrides();
+
+    WidgetsFlutterBinding.ensureInitialized();
+    runApp(const MyApp());
+  }, (err, st) {
+    print(err);
+    print(st);
+  });
+  FlutterImageCompress.showNativeLog = true;
 }
 
 class MyApp extends StatelessWidget {
@@ -52,12 +64,22 @@ class MyApp extends StatelessWidget {
         systemNavigationBarIconBrightness: Brightness.dark));
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      initialRoute: (isDashboard
+      initialRoute: isDashboard
           ? (box?.read('user') != null ? AppRoutes.chart : AppRoutes.login)
-          : AppRoutes.home),
+          : AppRoutes.home,
       getPages: AppPages.pages,
       title: Config.nameApp,
-      theme: theme(context),
+      darkTheme: darkTheme(context),
+      themeMode: ThemeMode.dark,
     );
+  }
+}
+
+class MyHttpOverrides extends HttpOverrides {
+  @override
+  HttpClient createHttpClient(SecurityContext? context) {
+    return super.createHttpClient(context)
+      ..badCertificateCallback =
+          (X509Certificate cert, String host, int port) => true;
   }
 }

@@ -4,17 +4,11 @@ description: "A new Flutter project."
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
  
-version: 1.0.7+8
+version: 1.0.1+1
 
 environment:
   sdk: '>=3.4.0 <4.0.0'
 
-# Dependencies specify other packages that your package needs in order to work.
-# To automatically upgrade your package dependencies to the latest versions
-# consider running `flutter pub upgrade --major-versions`. Alternatively,
-# dependencies can be manually updated by changing the version numbers below to
-# the latest version available on pub.dev. To see which dependencies have newer
-# versions available, run `flutter pub outdated`.
 dependencies:
   flutter:
     sdk: flutter
@@ -25,21 +19,18 @@ dependencies:
   cupertino_icons: ^1.0.6
   dio: ^5.4.3+1
   file_picker: ^8.1.2
-  flutter_image_compress: ^2.0.4
+  flutter_image_compress: ^2.3.0
   shimmer: ^3.0.0
   flutter_spinkit: ^5.2.0
   url_launcher: ^6.1.11
-  flutter_local_notifications: ^16.1.0
+  flutter_local_notifications: ^17.2.3
   firebase_messaging: ^15.1.2
   firebase_core: ^3.5.0
-  # ffmpeg_kit_flutter: ^6.0.3
-  ffmpeg_kit_flutter_audio: ^6.0.3
-  # flutter_ffmpeg: ^0.4.2
   path_provider: ^2.1.4
-  # ffmpeg_wasm: ^1.0.3
   flutter_staggered_grid_view: ^0.7.0
   searchfield: ^1.0.3
   google_fonts: ^6.2.1
+  glass_kit: ^4.0.1
   flutter_phone_direct_caller: ^2.1.1
   get: ^4.6.5  
   flutter_svg: ^2.0.5
@@ -50,11 +41,11 @@ dependencies:
   responsive_table: ^0.2.0+2
   get_storage: ^2.1.1
   cached_network_image: ^3.2.3
-  carousel_slider: ^4.2.1
+  carousel_slider: ^5.0.0
   font_awesome_flutter: ^10.7.0
   bottom_sheet: ^4.0.0
   share_plus: ^10.0.2
-  audioplayers: ^6.0.0
+  # audioplayers: ^6.0.0
   bootstrap_grid: ^1.0.4
   fl_chart: ^0.68.0
   

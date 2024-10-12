@@ -1,21 +1,21 @@
 {
   "project_info": {
-    "project_number": "869513202326",
-    "project_id": "wallpaper-app-academy",
-    "storage_bucket": "wallpaper-app-academy.appspot.com"
+    "project_number": "879254810412",
+    "project_id": "photo-share-b314f",
+    "storage_bucket": "photo-share-b314f.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:869513202326:android:37745f2df334ad8fa3d0b7",
+        "mobilesdk_app_id": "1:879254810412:android:914dc02cbf45f668548689",
         "android_client_info": {
-          "package_name": "com.academy.wallpap"
+          "package_name": "com.photo.share"
         }
       },
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyDINZRx8dHyvhow6bmrFqlDbybf6DpGxaY"
+          "current_key": "AIzaSyANpDBLk5_29FKZeq36TuWp3B6G9R0avPY"
         }
       ],
       "services": {

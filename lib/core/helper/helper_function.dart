@@ -1,5 +1,7 @@
 import 'dart:io';
 
+import 'package:file_picker/file_picker.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
@@ -8,6 +10,7 @@ import 'package:wallpaper_app/core/repository.dart';
 import 'package:wallpaper_app/models/post.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:share_plus/share_plus.dart';
+import 'dart:typed_data' as typed_data;
 
 DecorationImage resolveImage(String? photo) {
   if (photo == null) {
@@ -16,7 +19,7 @@ DecorationImage resolveImage(String? photo) {
   }
   return DecorationImage(
       image: NetworkImage(
-          photo!.startsWith("http") ? photo : Config.storageUrl + photo),
+          photo.startsWith("http") ? photo : Config.storageUrl + photo),
       fit: BoxFit.fill);
 }
 
@@ -24,11 +27,28 @@ String resolveImageUrl(String photo) {
   return photo.startsWith("http") ? photo : Config.storageUrl + photo;
 }
 
-Future<File> compressFile(String path) async {
-  File? compressedFile;
+Future<typed_data.Uint8List?> compressImageWeb(PlatformFile file) async {
+  try {
+    if (file.size < 1000000) {
+      return null;
+    }
+    final result = await FlutterImageCompress.compressWithList(file.bytes!,
+        minWidth: 1000,
+        minHeight: 1000,
+        quality: 97,
+        format:
+            file.extension == "png" ? CompressFormat.png : CompressFormat.jpeg);
+    return result;
+  } catch (e) {
+    print(e);
+    return null;
+  }
+}
 
-  var result = await FlutterImageCompress.compressWithFile(path,
-      minWidth: 800, minHeight: 800, quality: 90, format: CompressFormat.jpeg);
+Future<File> compressImage(PlatformFile file) async {
+  File? compressedFile;
+  var result = await FlutterImageCompress.compressWithFile(file.path!,
+      minWidth: 500, minHeight: 500, quality: 94, format: CompressFormat.jpeg);
 
   final tempDir = await getTemporaryDirectory();
   var now = DateTime.now();
@@ -92,17 +112,32 @@ LinearGradient getGredient(int index) {
   );
 }
 
-shareFile(Post post) async {
+downloadAttachment(Post post, bool isShare) async {
   var tempDir = await getTemporaryDirectory();
-  var fileName = post.attachment;
+  var fileName = post.photo;
   String fullPath = "${tempDir.path}/$fileName";
 
-  await downloadFile(Config.storageUrl + fileName!, fullPath, post.id);
-  print(fullPath);
-  final result = await Share.shareXFiles(
-      [XFile(fullPath, mimeType: 'audio/mpeg')],
-      subject: " تطبيق ملصقات صوتية", text: "استمتع بالملصق الصوتي");
+  await downloadFile(resolveImageUrl(fileName!), fullPath, post.id, isShare);
+  return fullPath;
+}
+
+Future<void> shareFile(Post post) async {
+  final fullPath = await downloadAttachment(post, true);
+  final result = await Share.shareXFiles([XFile(fullPath)],
+      subject: " تطبيق ${Config.nameApp}", text: "استمتع");
   if (result.status == ShareResultStatus.dismissed) {
     print('Did you not like the pictures?');
   }
+}
+
+DecorationImage? universelImage(PlatformFile? file, String? photo) {
+  if (file == null && photo == null) {
+    return const DecorationImage(image: AssetImage("assets/no-image.png"));
+  }
+  return file != null
+      ? (kIsWeb
+          ? DecorationImage(image: MemoryImage(file.bytes!), fit: BoxFit.fill)
+          : DecorationImage(
+              image: FileImage(File(file.path!)), fit: BoxFit.fill))
+      : (photo != null ? resolveImage(photo) : null);
 }

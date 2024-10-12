@@ -1,9 +1,9 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:wallpaper_app/core/config.dart';
 import 'package:wallpaper_app/core/helper/helper_function.dart';
 import 'package:wallpaper_app/core/widget/chip_widget.dart';
 import 'package:wallpaper_app/core/widget/label_form.dart';
+import 'package:wallpaper_app/core/widget/photo_card.dart';
 import 'package:wallpaper_app/core/widget/upload_file_widget.dart';
 import 'package:get/get.dart';
 import 'package:wallpaper_app/constants_dashboard.dart';
@@ -14,7 +14,6 @@ import 'package:wallpaper_app/core/widget/dashboard/side_menu.dart';
 import 'package:wallpaper_app/models/category.dart' as category;
 import 'package:timeago/timeago.dart' as timeago;
 
-import 'package:wallpaper_app/models/comment.dart';
 import 'package:wallpaper_app/models/post.dart';
 import 'package:wallpaper_app/pages/dashboard/product/post_controller.dart';
 import 'package:wallpaper_app/responsive.dart';
@@ -90,46 +89,39 @@ class PostView extends StatelessWidget {
                                       //   },
                                       // ),
                                       DatatableHeader(
-                                        text: "المستخدم",
-                                        value: "user_id",
+                                        text: "الصورة",
+                                        value: "photo",
                                         sourceBuilder: (value, row) {
                                           return Row(
                                             mainAxisAlignment:
                                                 MainAxisAlignment.start,
                                             children: [
-                                              row["user"]["photo"] == null
+                                              row["photo"] == null
                                                   ? const SizedBox()
-                                                  : Container(
-                                                      height: 35,
-                                                      width: 35,
-                                                      decoration: BoxDecoration(
-                                                        color: bgColor,
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(4),
-                                                        image: resolveImage(
-                                                            row["user"]
-                                                                ["photo"]),
+                                                  : Padding(
+                                                      padding:
+                                                          const EdgeInsets.all(
+                                                              2),
+                                                      child: Container(
+                                                        height: 60,
+                                                        width: 60,
+                                                        decoration:
+                                                            BoxDecoration(
+                                                          color: bgColor,
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(4),
+                                                          image: resolveImage(
+                                                              row["photo"]),
+                                                        ),
                                                       ),
                                                     ),
-                                              const SizedBox(width: 4),
-                                              Directionality(
-                                                textDirection:
-                                                    TextDirection.ltr,
-                                                child: Text(
-                                                  ((row["user"]["username"] ??
-                                                      "")),
-                                                  style: TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.w600),
-                                                ),
-                                              )
                                             ],
                                           );
                                         },
                                       ),
                                       DatatableHeader(
-                                        text: "العنوان",
+                                        text: "عنوان المنشور",
                                         value: "title",
                                         sourceBuilder: (value, row) {
                                           return Wrap(
@@ -177,8 +169,10 @@ class PostView extends StatelessWidget {
                                                         label: Text(
                                                           e["name"] ?? "",
                                                           style: TextStyle(
-                                                              color:
-                                                                  Colors.white),
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w600,
+                                                              fontSize: 12),
                                                         ),
                                                         backgroundColor:
                                                             Config.primaryColor,
@@ -193,33 +187,28 @@ class PostView extends StatelessWidget {
                                         value: "الحالة",
                                         sourceBuilder: (value, row) {
                                           var visible = row["visible"];
-                                          return Container(
-                                            padding: EdgeInsets.symmetric(
-                                                vertical: 0, horizontal: 8),
-                                            decoration: BoxDecoration(),
-                                            child: Directionality(
-                                              textDirection: TextDirection.ltr,
-                                              child: Padding(
-                                                padding: const EdgeInsets.only(
-                                                    top: 4),
-                                                child: Chip(
-                                                  label: Text(
-                                                    (visible ?? 0) == 0
-                                                        ? "غير نشط"
-                                                        : "نشط",
-                                                    style: TextStyle(
-                                                        color:
-                                                            (visible ?? 0) == 0
-                                                                ? Colors.red
-                                                                : Colors.green),
-                                                  ),
-                                                  backgroundColor:
-                                                      (visible ?? 0) == 0
+                                          return Directionality(
+                                            textDirection: TextDirection.ltr,
+                                            child: Padding(
+                                              padding:
+                                                  const EdgeInsets.only(top: 4),
+                                              child: Chip(
+                                                label: Text(
+                                                  (visible ?? 0) == 0
+                                                      ? "غير نشط"
+                                                      : "نشط",
+                                                  style: TextStyle(
+                                                      fontSize: 12,
+                                                      color: (visible ?? 0) == 0
                                                           ? Colors.red
-                                                              .withAlpha(50)
-                                                          : Colors.green
-                                                              .withAlpha(50),
+                                                          : Colors.green),
                                                 ),
+                                                backgroundColor:
+                                                    (visible ?? 0) == 0
+                                                        ? Colors.red
+                                                            .withAlpha(50)
+                                                        : Colors.green
+                                                            .withAlpha(50),
                                               ),
                                             ),
                                           );
@@ -239,35 +228,12 @@ class PostView extends StatelessWidget {
                                                   MainAxisAlignment.center,
                                               children: [
                                                 IconButton(
-                                                  icon: Icon(index ==
-                                                              controller
-                                                                  .selectedAudioIndex &&
-                                                          controller.isPlaying
-                                                      ? Icons.pause
-                                                      : Icons
-                                                          .play_circle_filled_rounded),
-                                                  color: Colors.blue,
-                                                  onPressed: () async {
-                                                    controller.isPlaying &&
-                                                            index ==
-                                                                controller
-                                                                    .selectedAudioIndex
-                                                        ? controller.pause()
-                                                        : controller.playAudio(
-                                                            Post.fromJson(row
-                                                                as Map<String,
-                                                                    dynamic>),
-                                                            index);
-                                                  },
-                                                ),
-                                                const SizedBox(width: 20),
-                                                IconButton(
                                                   onPressed: () async {
                                                     controller
                                                         .initializeForm(row);
                                                     if (await manageProductDialog(
                                                         controller)) {
-                                                      controller.saveProduct();
+                                                      controller.savePost();
                                                     }
                                                   },
                                                   icon: const Icon(Icons.edit,
@@ -304,7 +270,7 @@ class PostView extends StatelessWidget {
                                               .toJson());
                                       if (await manageProductDialog(
                                           controller)) {
-                                        controller.saveProduct();
+                                        controller.savePost();
                                       }
                                     },
                                     onSearch: (query) {
@@ -346,6 +312,7 @@ class PostView extends StatelessWidget {
         child: Column(
           children: [
             const SizedBox(height: 8),
+            const LabelForm("عنوان المنشور", isRequired: false),
             Container(
               decoration: BoxDecoration(
                   border: Border(
@@ -359,8 +326,8 @@ class PostView extends StatelessWidget {
                 },
                 decoration: InputDecoration(
                     border: InputBorder.none,
-                    hintText: "عنوان المقطع الصوتي",
-                    prefixIcon: Icon(Icons.music_note_outlined),
+                    hintText: "أكتب عنوان المنشور",
+                    prefixIcon: Icon(Icons.title),
                     hintStyle: TextStyle(color: Colors.grey[400])),
               ),
             ),
@@ -475,6 +442,9 @@ class PostView extends StatelessWidget {
         );
       }),
       const SizedBox(height: 8),
+      const LabelForm(
+        "الحالة",
+      ),
       GetBuilder<PostController>(builder: (_) {
         return SwitchListTile(
           title: const Text("نشط", style: TextStyle(color: Colors.white)),
@@ -487,20 +457,32 @@ class PostView extends StatelessWidget {
         );
       }),
       const SizedBox(height: defaultPadding),
-      Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          GetBuilder<PostController>(builder: (_) {
-            return UploadFile(
-              upload: () {
-                controller.pickFile();
-              },
-              isCompressing: controller.isCompressing,
-              file: controller.file,
-            );
-          }),
-        ],
+      const LabelForm(
+        "إختر صورة ",
       ),
+      GetBuilder<PostController>(builder: (_) {
+        return PhotoCard(
+          file: controller.file,
+          photo: controller.post.photo,
+          onPickFile: () {
+            controller.pickFile();
+          },
+        );
+      }),
+      // Row(
+      //   mainAxisAlignment: MainAxisAlignment.center,
+      //   children: [
+      //     GetBuilder<PostController>(builder: (_) {
+      //       return UploadFile(
+      //         upload: () {
+      //           controller.pickFile();
+      //         },
+      //         isCompressing: controller.isCompressing,
+      //         file: controller.file,
+      //       );
+      //     }),
+      //   ],
+      // ),
     ]);
   }
 }

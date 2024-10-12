@@ -29,7 +29,7 @@ class AddPostController extends BaseController {
 
   @override
   void onReady() {
-    refreshUserInfo();
+    // refreshUserInfo();
     super.onReady();
   }
 

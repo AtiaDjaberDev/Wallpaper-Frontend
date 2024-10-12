@@ -44,7 +44,7 @@ class NotificationAdminView extends StatelessWidget {
                             borderRadius: BorderRadius.all(Radius.circular(10)),
                           ),
                           child: Padding(
-                            padding: EdgeInsets.all(defaultPadding),
+                            padding: const EdgeInsets.all(defaultPadding),
                             child: Column(
                               children: [
                                 const SizedBox(height: 40),
@@ -56,7 +56,7 @@ class NotificationAdminView extends StatelessWidget {
                                           builder: (_) {
                                         return Container(
                                           height: 150,
-                                          width: 150,
+                                          width: 280,
                                           decoration: BoxDecoration(
                                               color: bgColor,
                                               borderRadius:
@@ -167,21 +167,18 @@ class NotificationAdminView extends StatelessWidget {
                                   onPressed: () {
                                     controller.send();
                                   },
-                                  icon: Icon(
-                                    Icons.send,
-                                    size: 30,
-                                    color: Colors.white,
-                                  ),
+                                  icon: const Icon(Icons.send, size: 30),
                                   label: Container(
                                     padding: EdgeInsets.all(8),
-                                    child: Text(
+                                    child: const Text(
                                       "إرسال",
                                       style: TextStyle(
                                           fontSize: 18,
-                                          fontWeight: FontWeight.w600),
+                                          fontWeight: FontWeight.w700),
                                     ),
                                   ),
                                 ),
+                                const SizedBox(height: 30 * 2),
                               ],
                             ),
                           ),

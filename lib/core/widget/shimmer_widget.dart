@@ -9,8 +9,8 @@ class ShimmerWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Shimmer.fromColors(
-      baseColor: Colors.grey.shade300,
-      highlightColor: Colors.grey.shade50,
+      baseColor: Colors.grey,
+      highlightColor: Colors.black,
       enabled: true,
       child: ListView.builder(
         padding: const EdgeInsets.all(4),

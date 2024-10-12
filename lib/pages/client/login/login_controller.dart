@@ -53,9 +53,7 @@ class LoginController extends GetxController {
         box?.write("user", jsonEncode(helperService.userModel));
 
         addTokenToHeader(helperService.userModel!.accessToken!);
-        Get.offAllNamed(helperService.userModel?.username == null
-            ? AppRoutes.addUserInfo
-            : (isDashboard ? AppRoutes.chart : AppRoutes.home));
+        Get.offAllNamed(isDashboard ? AppRoutes.chart : AppRoutes.home);
       } else {
         Get.back();
         var errorMessages = (response.data["data"] as List).join("\n");

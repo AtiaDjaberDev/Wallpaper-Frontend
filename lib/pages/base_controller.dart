@@ -1,6 +1,6 @@
 import 'dart:io';
 import 'package:file_picker/file_picker.dart';
-import 'package:wallpaper_app/core/helper/audio_helper.dart';
+import 'package:wallpaper_app/core/helper/helper_function.dart';
 import 'package:wallpaper_app/core/repository.dart';
 import 'package:wallpaper_app/models/category.dart';
 import 'package:wallpaper_app/service/helper_service.dart';
@@ -41,13 +41,12 @@ class BaseController extends GetxController {
   bool isCompressing = false;
   Future pickFile() async {
     FilePickerResult? result = await FilePicker.platform.pickFiles(
-        type: FileType.audio, allowMultiple: false, allowCompression: false);
+        type: FileType.image, allowMultiple: false, allowCompression: false);
 
-    if (result != null) {
+    if (result != null && result.files.isNotEmpty) {
       file = result.files.first;
       isCompressing = true;
       update();
-      compressedFile = await compressAudio(file);
       isCompressing = false;
       update();
     }

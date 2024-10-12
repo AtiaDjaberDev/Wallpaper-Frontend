@@ -1,9 +1,11 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:dio/io.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
-import 'package:wallpaper_app/pages/client/order/audio_controller.dart';
+import 'package:wallpaper_app/pages/client/detail_post/detail_controller.dart';
+import 'package:wallpaper_app/pages/client/favorite/favorite_controller.dart';
 import 'package:get/get.dart' as getx;
 import 'package:wallpaper_app/core/config.dart';
 import 'package:wallpaper_app/core/helper/helper_function.dart';
@@ -17,6 +19,11 @@ var dioRequest = Dio()
 final helperService = getx.Get.find<HelperService>();
 
 addTokenToHeader(String token) {
+  (dioRequest.httpClientAdapter as IOHttpClientAdapter).createHttpClient = () =>
+      HttpClient()
+        ..badCertificateCallback =
+            (X509Certificate cert, String host, int port) => true;
+
   dioRequest.options.headers["authorization"] =
       token.startsWith("Bearer") ? token : "Bearer $token";
 }
@@ -84,23 +91,26 @@ Future<Response> saveDataWithFile(String resource, Map<String, dynamic> data,
     PlatformFile? platformFile) async {
   try {
     if (platformFile != null) {
-      final contentType = MediaType.parse('image/${platformFile.extension}');
+      final contentType = MediaType("image", "jpeg");
       MultipartFile multipartFile;
       if (kIsWeb) {
-        multipartFile = MultipartFile.fromBytes(platformFile.bytes!,
-            filename: 'attachment.png', contentType: contentType);
+        final optimizedFile = await compressImageWeb(platformFile);
+        multipartFile = MultipartFile.fromBytes(
+            optimizedFile ?? platformFile.bytes!,
+            filename: 'attachment.jpg',
+            contentType: contentType);
       } else {
         if (Platform.isWindows) {
           multipartFile = await MultipartFile.fromFile(platformFile.path!,
-              filename: 'attachment.png', contentType: contentType);
+              filename: 'attachment.jpg', contentType: contentType);
         } else {
-          File optimizedFile = await compressFile(platformFile.path!);
+          File optimizedFile = await compressImage(platformFile);
           multipartFile = (await MultipartFile.fromFile(optimizedFile.path,
-              filename: 'attachment.png', contentType: contentType));
+              filename: 'attachment.jpg', contentType: contentType));
         }
       }
 
-      data["photo"] = multipartFile;
+      data["file"] = multipartFile;
     }
     var formData = FormData.fromMap(data);
     Response response;
@@ -149,14 +159,14 @@ Future<Response> saveDataWithXFile(
     String resource, Map<String, dynamic> data, File? file) async {
   try {
     if (file != null) {
-      final contentType = MediaType.parse('audio/${file.path.split('.').last}');
+      final contentType = MediaType.parse('image/${file.path.split('.').last}');
       MultipartFile multipartFile;
       if (kIsWeb) {
         multipartFile = MultipartFile.fromBytes(file.readAsBytesSync(),
-            filename: 'attachment.wav', contentType: contentType);
+            filename: 'attachment.jpg', contentType: contentType);
       } else {
         multipartFile = await MultipartFile.fromFile(file.path,
-            filename: 'attachment.wav', contentType: contentType);
+            filename: 'attachment.jpg', contentType: contentType);
       }
       data["file"] = multipartFile;
     }
@@ -188,22 +198,26 @@ Future<Response> getData(String resource, {Filter? filter}) async {
   }
 }
 
-void showDownloadProgress(received, total, int? id) {
+void showDownloadProgress(received, total, int? id, bool isShare) {
   if (total != -1) {
     print((received / total * 100).toStringAsFixed(0) + "%");
-    if (getx.Get.isRegistered<AudioController>()) {
-      final controller = getx.Get.find<AudioController>();
-      controller.progress((received / total * 100), id);
+    if (getx.Get.isRegistered<DetailController>()) {
+      final controller = getx.Get.find<DetailController>();
+      if (isShare) {
+        controller.progressShare((received / total * 100), id);
+      } else {
+        controller.progress((received / total * 100), id);
+      }
     }
   }
 }
 
-Future downloadFile(String url, String savePath, int? id) async {
+Future downloadFile(String url, String savePath, int? id, bool isShare) async {
   try {
     Response response = await dioRequest.get(
       url,
       onReceiveProgress: (received, total) =>
-          showDownloadProgress(received, total, id),
+          showDownloadProgress(received, total, id, isShare),
       //Received data with List<int>
       options: Options(
           responseType: ResponseType.bytes,
@@ -212,7 +226,6 @@ Future downloadFile(String url, String savePath, int? id) async {
             return status! < 500;
           }),
     );
-    print(response.headers);
     File file = File(savePath);
     var raf = file.openSync(mode: FileMode.write);
     // response.data is List<int> type

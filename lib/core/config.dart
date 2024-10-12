@@ -1,23 +1,23 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:wallpaper_app/constants_dashboard.dart';
 
+// https://www.termsfeed.com/live/77282259-4635-44b2-a993-dc0ca378e477
 class Config {
-  //FasOKc3IdAL3Jnh!
-  static const String nameApp = "Audio Gate";
-  static const Color primaryColor = Color.fromRGBO(84, 65, 120, 1);
+  // NNka4AaFcri!L%oB
+  static const String nameApp = "Photo Share";
+  static const Color primaryColor = Color.fromRGBO(239, 174, 34, 1);
   static const Color secondColor = Color.fromRGBO(250, 206, 48, 1);
-  static const Color backgroundColor = Color.fromARGB(248, 245, 245, 250);
+  static const Color backgroundColor = Color.fromRGBO(19, 17, 29, 1);
+  static const Color textColor = Color.fromRGBO(214, 214, 214, 1);
   static const String googlePlayUrl =
-      "https://play.google.com/store/apps/details?id=com.app.audiosticker";
+      "https://play.google.com/store/apps/details?id=com.photo.share";
 
   //
-  static String baseServerUrl = "https://dashboard.audiostickers.com/api/";
+  static String baseServerUrl = "https://photo.audiostickers.com/api/";
   // static String baseServerUrl = "http://localhost:8000/api/";
   // static const String baseServerUrl = "http://192.168.1.5:8000/api/";
   static final String storageUrl = baseServerUrl.replaceFirst(
       "api/",
-      baseServerUrl.contains("192")
+      (baseServerUrl.contains("192") || baseServerUrl.contains("localhost"))
           ? "storage/attachments/"
           : "public/storage/attachments/");
   static String logoAsset = "assets/logo2.jpeg";
@@ -35,24 +35,3 @@ class Config {
     900: primaryColor,
   };
 }
-
-get theme => (context) => ThemeData(
-      scaffoldBackgroundColor: isDashboard ? bgColor : null,
-      canvasColor: isDashboard ? secondaryColor : null,
-      hintColor: isDashboard ? Colors.grey : null,
-      useMaterial3: false,
-      scrollbarTheme: ScrollbarThemeData(
-        thumbVisibility: WidgetStateProperty.all<bool>(true),
-        thumbColor: WidgetStateProperty.all(Colors.grey),
-      ),
-      textTheme: isDashboard
-          ? GoogleFonts.tajawalTextTheme(Theme.of(context).textTheme)
-              .apply(bodyColor: isDashboard ? Colors.white : Colors.black)
-          : null,
-      appBarTheme: const AppBarTheme(backgroundColor: Config.primaryColor),
-      primarySwatch:
-          MaterialColor(Config.primaryColor.value, Config.primarySwatch),
-      buttonTheme: const ButtonThemeData(
-          buttonColor: isDashboard ? primaryColor : Config.primaryColor),
-      fontFamily: "Tajawal",
-    );

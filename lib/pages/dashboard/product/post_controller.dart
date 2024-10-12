@@ -1,9 +1,5 @@
 import 'dart:async';
 import 'dart:io';
-
-import 'package:audioplayers/audioplayers.dart';
-
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:wallpaper_app/core/helper/helper_function.dart';
@@ -24,6 +20,8 @@ class PostController extends BaseController {
   Post post = Post(visible: 0, categories: []);
   String? nextPage;
   String? prevPage;
+  int? selectedAudioIndex;
+
   ScrollController scrollController = ScrollController();
   TextEditingController searchController = TextEditingController();
 
@@ -34,17 +32,6 @@ class PostController extends BaseController {
   ];
   TextEditingController titleController = TextEditingController(text: "");
   TextEditingController descriptionController = TextEditingController(text: "");
-
-  // Price
-  TextEditingController packagePriceController =
-      TextEditingController(text: "");
-  TextEditingController packagePriceTitleController =
-      TextEditingController(text: "");
-
-  // Quantity
-  TextEditingController packageSizeController = TextEditingController(text: "");
-  TextEditingController packageSizeTitleController =
-      TextEditingController(text: "");
 
   List<Section> sections = [];
 
@@ -84,21 +71,13 @@ class PostController extends BaseController {
     }
   }
 
-  PlatformFile? file;
-
-  saveProduct() async {
+  savePost() async {
     post.userId = helperService.userModel?.id;
     post.title = titleController.text;
     post.description = descriptionController.text;
 
     try {
-      var res;
-      if (!kIsWeb && Platform.isAndroid && compressedFile != null) {
-        res = await saveDataWithXFile(
-            "store-posts", post.toJson(), compressedFile);
-      } else {
-        res = await saveDataWithAudio("store-posts", post.toJson(), file);
-      }
+      var res = await saveDataWithFile("store-posts", post.toJson(), file);
 
       if (res.statusCode == 200) {
         Post product = Post.fromJson(res.data["data"]);
@@ -189,84 +168,5 @@ class PostController extends BaseController {
         update();
       }
     }
-  }
-
-  final player = AudioPlayer();
-  int positionPlayer = 0;
-  Duration? playerPosition;
-  Duration? playerDuration;
-  PlayerState? playerState;
-
-  StreamSubscription? _durationSubscription;
-  StreamSubscription? _positionSubscription;
-  StreamSubscription? _playerCompleteSubscription;
-  StreamSubscription? _playerStateChangeSubscription;
-  String get durationText => playerDuration?.toString().split('.').first ?? '';
-
-  String get positionText => playerPosition?.toString().split('.').first ?? '';
-
-  bool get isPlaying => playerState == PlayerState.playing;
-
-  bool get isPaused => playerState == PlayerState.paused;
-
-  int? selectedAudioIndex;
-  Future<void> playAudio(Post post, int index) async {
-    if (selectedAudioIndex != index) {
-      selectedAudioIndex = index;
-      await stop();
-      loading = true;
-      update();
-    }
-    await player.play(UrlSource(resolveImageUrl(post.attachment!)));
-    print("Starting..........");
-    player.setReleaseMode(ReleaseMode.stop);
-
-    _initStreams();
-
-    playerPosition = (await player.getCurrentPosition())!;
-    playerDuration = (await player.getDuration())!;
-    await player.resume();
-    loading = false;
-
-    playerState = PlayerState.playing;
-    update();
-  }
-
-  Future<void> stop() async {
-    await player.stop();
-    playerState = PlayerState.stopped;
-    playerPosition = Duration.zero;
-    playerDuration = Duration.zero;
-    update();
-  }
-
-  void _initStreams() {
-    _durationSubscription = player.onDurationChanged.listen((duration) {
-      playerDuration = duration;
-      update();
-    });
-
-    _positionSubscription = player.onPositionChanged.listen((p) {
-      playerPosition = p;
-      update();
-    });
-
-    _playerCompleteSubscription = player.onPlayerComplete.listen((event) {
-      playerState = PlayerState.stopped;
-      playerPosition = Duration.zero;
-      update();
-    });
-
-    _playerStateChangeSubscription =
-        player.onPlayerStateChanged.listen((state) {
-      playerState = state;
-      update();
-    });
-  }
-
-  Future<void> pause() async {
-    await player.pause();
-    playerState = PlayerState.paused;
-    update();
   }
 }

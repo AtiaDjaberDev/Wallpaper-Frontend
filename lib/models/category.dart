@@ -1,3 +1,4 @@
+import 'package:wallpaper_app/models/post.dart';
 import 'package:wallpaper_app/models/section.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -12,7 +13,7 @@ class Category {
     this.description,
     this.isSelected,
     required this.sections,
-  });
+  }) : posts = [];
 
   int? id;
   String? name;
@@ -21,6 +22,8 @@ class Category {
   String? photo;
   @JsonKey(defaultValue: [])
   List<Section> sections;
+  @JsonKey(defaultValue: [])
+  List<Post> posts;
   String? description;
 
   factory Category.fromJson(Map<String, dynamic> json) =>

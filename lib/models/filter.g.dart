@@ -17,6 +17,9 @@ Filter _$FilterFromJson(Map<String, dynamic> json) => Filter(
       userId: (json['user_id'] as num?)?.toInt(),
       from: json['from'] as String?,
       to: json['to'] as String?,
+      ids: (json['ids'] as List<dynamic>?)
+          ?.map((e) => (e as num).toInt())
+          .toList(),
     )
       ..postId = (json['post_id'] as num?)?.toInt()
       ..nextPage = (json['nextPage'] as num?)?.toInt()
@@ -33,6 +36,7 @@ Map<String, dynamic> _$FilterToJson(Filter instance) => <String, dynamic>{
       'itemCount': instance.itemCount,
       'status': instance.status,
       'page': instance.page,
+      'ids': instance.ids,
       'user_id': instance.userId,
       'section_id': instance.sectionId,
       'location_id': instance.locationId,

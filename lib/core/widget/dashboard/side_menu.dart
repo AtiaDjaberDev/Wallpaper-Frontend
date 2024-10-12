@@ -46,15 +46,16 @@ class SideMenu extends StatelessWidget {
       "route": AppRoutes.carousels
     },
     {
-      "title": "المستخدمين",
-      "svgSrc": "assets/icons/menu_profile.svg",
-      "route": AppRoutes.users
-    },
-    {
       "title": "الإشعارات",
       "svgSrc": "assets/icons/menu_notification.svg",
       "route": AppRoutes.notificationDashboard
     },
+    {
+      "title": "المستخدمين",
+      "svgSrc": "assets/icons/menu_profile.svg",
+      "route": AppRoutes.users
+    },
+
     {
       "title": "إتصل بنا",
       "svgSrc": "assets/icons/contacts.svg",

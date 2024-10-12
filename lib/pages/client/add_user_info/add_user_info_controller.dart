@@ -49,7 +49,7 @@ class AddUserInfoController extends GetxController {
           'user/avatar', {'id': helperService.userModel?.id}, platformFile);
       if (response.statusCode == 200) {
         helperService.userModel!.photo = response.data["data"];
-        helperService.saveUserInfoToSharedPrefs(helperService.userModel);
+        helperService.saveUserToStorage(helperService.userModel);
       }
       uploading = false;
       update();
@@ -66,7 +66,7 @@ class AddUserInfoController extends GetxController {
       final response =
           await updateData('users', helperService.userModel?.toJson());
       if (response.statusCode == 200) {
-        helperService.saveUserInfoToSharedPrefs(helperService.userModel);
+        helperService.saveUserToStorage(helperService.userModel);
 
         Get.offAndToNamed(isDashboard ? AppRoutes.posts : AppRoutes.home);
       }

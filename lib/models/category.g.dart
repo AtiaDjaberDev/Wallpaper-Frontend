@@ -16,7 +16,12 @@ Category _$CategoryFromJson(Map<String, dynamic> json) => Category(
               ?.map((e) => Section.fromJson(e as Map<String, dynamic>))
               .toList() ??
           [],
-    )..position = (json['position'] as num?)?.toInt();
+    )
+      ..position = (json['position'] as num?)?.toInt()
+      ..posts = (json['posts'] as List<dynamic>?)
+              ?.map((e) => Post.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          [];
 
 Map<String, dynamic> _$CategoryToJson(Category instance) => <String, dynamic>{
       'id': instance.id,
@@ -25,5 +30,6 @@ Map<String, dynamic> _$CategoryToJson(Category instance) => <String, dynamic>{
       'isSelected': instance.isSelected,
       'photo': instance.photo,
       'sections': instance.sections.map((e) => e.toJson()).toList(),
+      'posts': instance.posts.map((e) => e.toJson()).toList(),
       'description': instance.description,
     };

@@ -57,7 +57,7 @@ class UploadFile extends StatelessWidget {
                     children: [
                       const SizedBox(height: 16),
                       SvgPicture.asset(
-                        "assets/icons/upload-track.svg",
+                        "assets/icons/upload.svg",
                         colorFilter: const ColorFilter.mode(
                             Color.fromARGB(255, 135, 126, 152),
                             BlendMode.srcIn),
@@ -65,7 +65,7 @@ class UploadFile extends StatelessWidget {
                       ),
                       const SizedBox(height: 8),
                       Text(
-                        file == null ? "Select Audio File" : file!.name,
+                        file == null ? "إختر صورة" : file!.name,
                         textAlign: TextAlign.center,
                         style: TextStyle(
                             color: file == null
@@ -82,6 +82,7 @@ class UploadFile extends StatelessWidget {
                 right: 20,
                 child: OutlinedButton.icon(
                   style: OutlinedButton.styleFrom(
+                    overlayColor: Colors.amber,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(30.0),
                     ),
@@ -90,10 +91,8 @@ class UploadFile extends StatelessWidget {
                   onPressed: () {
                     upload.call();
                   },
-                  icon: const Icon(
-                    Icons.file_upload_outlined,
-                    color: themeColor,
-                  ),
+                  icon:
+                      const Icon(Icons.file_upload_outlined, color: themeColor),
                   label: const Text('رفع',
                       style: TextStyle(fontSize: 16, color: themeColor)),
                 ),

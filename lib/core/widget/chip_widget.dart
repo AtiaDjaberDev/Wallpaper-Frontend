@@ -29,9 +29,7 @@ class ChipWidget extends StatelessWidget {
           label: Text(
             text ?? "",
             style: TextStyle(
-                color:
-                    isSelected ?? false ? Colors.white : Colors.grey.shade700,
-                fontSize: 16,
+                fontSize: 14,
                 fontWeight:
                     isSelected ?? false ? FontWeight.w700 : FontWeight.w500),
           ),

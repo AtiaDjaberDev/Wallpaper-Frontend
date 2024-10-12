@@ -14,7 +14,6 @@ import 'package:wallpaper_app/models/post.dart';
 import 'package:wallpaper_app/models/filter.dart';
 import 'package:wallpaper_app/models/user.dart';
 import 'package:wallpaper_app/service/helper_service.dart';
-import 'package:audioplayers/audioplayers.dart';
 
 class HomeController extends GetxController
     with GetSingleTickerProviderStateMixin {

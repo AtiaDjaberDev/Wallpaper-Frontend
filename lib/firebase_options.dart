@@ -41,49 +41,49 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyDMy7opv10Igsbb4eg8LE6KBgiPwo659_E',
-    appId: '1:869513202326:web:21c17cbbf958064ea3d0b7',
-    messagingSenderId: '869513202326',
-    projectId: 'wallpaper-app-academy',
-    authDomain: 'wallpaper-app-academy.firebaseapp.com',
-    storageBucket: 'wallpaper-app-academy.appspot.com',
-    measurementId: 'G-E0D5BCH19W',
+    apiKey: 'AIzaSyBqdirGrlwWtlEOi4TPIALuGOwQQneSdj0',
+    appId: '1:879254810412:web:47e2cdeecf83b89b548689',
+    messagingSenderId: '879254810412',
+    projectId: 'photo-share-b314f',
+    authDomain: 'photo-share-b314f.firebaseapp.com',
+    storageBucket: 'photo-share-b314f.appspot.com',
+    measurementId: 'G-48YBM46Y1X',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyDINZRx8dHyvhow6bmrFqlDbybf6DpGxaY',
-    appId: '1:869513202326:android:37745f2df334ad8fa3d0b7',
-    messagingSenderId: '869513202326',
-    projectId: 'wallpaper-app-academy',
-    storageBucket: 'wallpaper-app-academy.appspot.com',
+    apiKey: 'AIzaSyANpDBLk5_29FKZeq36TuWp3B6G9R0avPY',
+    appId: '1:879254810412:android:914dc02cbf45f668548689',
+    messagingSenderId: '879254810412',
+    projectId: 'photo-share-b314f',
+    storageBucket: 'photo-share-b314f.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyDf-35QSNXpN7ilvTO8QLIlCB68A22jj1M',
-    appId: '1:869513202326:ios:43ee87433c439bdea3d0b7',
-    messagingSenderId: '869513202326',
-    projectId: 'wallpaper-app-academy',
-    storageBucket: 'wallpaper-app-academy.appspot.com',
+    apiKey: 'AIzaSyChk-SXp3aePDeWCk8-shuyZIBOeAG-0GA',
+    appId: '1:879254810412:ios:b71b79033a2edf4c548689',
+    messagingSenderId: '879254810412',
+    projectId: 'photo-share-b314f',
+    storageBucket: 'photo-share-b314f.appspot.com',
     iosBundleId: 'com.example.funSound',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyDf-35QSNXpN7ilvTO8QLIlCB68A22jj1M',
-    appId: '1:869513202326:ios:43ee87433c439bdea3d0b7',
-    messagingSenderId: '869513202326',
-    projectId: 'wallpaper-app-academy',
-    storageBucket: 'wallpaper-app-academy.appspot.com',
+    apiKey: 'AIzaSyChk-SXp3aePDeWCk8-shuyZIBOeAG-0GA',
+    appId: '1:879254810412:ios:b71b79033a2edf4c548689',
+    messagingSenderId: '879254810412',
+    projectId: 'photo-share-b314f',
+    storageBucket: 'photo-share-b314f.appspot.com',
     iosBundleId: 'com.example.funSound',
   );
 
   static const FirebaseOptions windows = FirebaseOptions(
-    apiKey: 'AIzaSyDMy7opv10Igsbb4eg8LE6KBgiPwo659_E',
-    appId: '1:869513202326:web:887983f76b37c265a3d0b7',
-    messagingSenderId: '869513202326',
-    projectId: 'wallpaper-app-academy',
-    authDomain: 'wallpaper-app-academy.firebaseapp.com',
-    storageBucket: 'wallpaper-app-academy.appspot.com',
-    measurementId: 'G-2SNSLW2HGH',
+    apiKey: 'AIzaSyBqdirGrlwWtlEOi4TPIALuGOwQQneSdj0',
+    appId: '1:879254810412:web:9bea74f123f6dc9c548689',
+    messagingSenderId: '879254810412',
+    projectId: 'photo-share-b314f',
+    authDomain: 'photo-share-b314f.firebaseapp.com',
+    storageBucket: 'photo-share-b314f.appspot.com',
+    measurementId: 'G-GCF1C3DDJS',
   );
 
 }

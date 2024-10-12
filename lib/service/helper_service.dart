@@ -55,16 +55,19 @@ class HelperService extends GetxService {
 
   @override
   void onInit() async {
-    getUserInfoFromSharedPrefs();
+    getUserFromStorage();
     // signOut();
     super.onInit();
   }
+
+  List<int> favoriteList = [];
 
   @override
   void onReady() {
     initializeNotification().then((_) {
       subscribeTopic();
     });
+    favoriteList = readIntList('FavoriteList') ?? [];
     super.onReady();
   }
 
@@ -85,14 +88,7 @@ class HelperService extends GetxService {
     return null;
   }
 
-  Future getUserInfoFromSharedPrefs() async {
-    // if (sharedPreferences?.getString("user") != null) {
-    //   userModel = user_model.User.fromJson(
-    //     jsonDecode(sharedPreferences!.getString("user")!),
-    //   );
-    //   addTokenToHeader(userModel!.accessToken!);
-    // }
-
+  Future getUserFromStorage() async {
     if (box?.read("user") != null) {
       userModel = user_model.User.fromJson(
         jsonDecode(box!.read("user")!),
@@ -103,7 +99,7 @@ class HelperService extends GetxService {
     } else {}
   }
 
-  Future saveUserInfoToSharedPrefs(user_model.User? user) async {
+  Future saveUserToStorage(user_model.User? user) async {
     if (user != null) {
       // sharedPreferences?.clear();
       // sharedPreferences?.setString("user", jsonEncode(user));
@@ -184,6 +180,15 @@ class HelperService extends GetxService {
         },
       );
     }
+  }
+
+  void writeIntList(String key, List<int> intList) {
+    box?.write(key, intList);
+  }
+
+  // Method to read the list of integers
+  List<int>? readIntList(String key) {
+    return box?.read<List<dynamic>>(key)?.cast<int>();
   }
 
   Future signOut() async {

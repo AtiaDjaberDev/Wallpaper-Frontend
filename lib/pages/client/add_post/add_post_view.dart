@@ -29,7 +29,7 @@ class AddPostView extends StatelessWidget {
                       child: TextFormField(
                         validator: (value) {
                           if (value!.isEmpty) {
-                            return 'يرجى ادخال عنوان المقطع الصوتي';
+                            return 'يرجى ادخال عنوان الصورة';
                           }
                         },
                         controller: controller.titleController,
@@ -39,7 +39,7 @@ class AddPostView extends StatelessWidget {
                               borderSide:
                                   BorderSide(color: Colors.amber, width: 0.1)),
                           prefixIcon: Icon(Icons.music_note_outlined),
-                          hintText: 'عنوان المقطع الصوتي',
+                          hintText: 'عنوان الصورة',
                         ),
                       ),
                     ),
